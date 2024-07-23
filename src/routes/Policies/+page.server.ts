@@ -28,7 +28,7 @@ async function seed() {
   const client = await db.connect();
   const createTable = await client.sql`CREATE TABLE IF NOT EXISTS names (
       id SERIAL PRIMARY KEY,
-      name VARCHAR(255) UNIQUE NOT NULL,
+      name VARCHAR(255) UNIQUE  NULL,
       email VARCHAR(255) UNIQUE NOT NULL,
       coverage VARCHAR(255) UNIQUE NOT NULL,
 
