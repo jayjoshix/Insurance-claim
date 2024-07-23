@@ -43,12 +43,12 @@ async function seed() {
           
       
     client.sql`
-          INSERT INTO names (name, email, image)
+          INSERT INTO names (name, email)
           VALUES ('Rebecca', 'rebecca@tcl.com')
           ON CONFLICT (name) DO NOTHING;
       `,
     client.sql`
-          INSERT INTO names (name, email, image)
+          INSERT INTO names (name, email)
           VALUES ('Vivek', 'vivek@gmail.com')
           ON CONFLICT (name) DO NOTHING;
       `,
