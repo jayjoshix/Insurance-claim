@@ -8,9 +8,9 @@
 >
 	<div class="flex items-center justify-between mb-4">
 		<div class="space-y-1">
-			<h2 class="text-xl font-semibold">List of Users</h2>
+			<h2 class="text-xl font-semibold">List of policies</h2>
 			<p class="text-sm text-gray-500">
-				Fetched {names.length} users
+				Fetched {names.length} policies
 			</p>
 		</div>
 	</div>
@@ -20,7 +20,9 @@
 				<div class="flex items-center space-x-4">
 					<div class="flex">
 						<p class="font-medium pt-1 leading-none">{user.name}</p>
-						<p class="font-medium pl-5 text-gray-500 pt-0">{user.email}</p>                        
+						<p class="font-medium pl-5 text-gray-500 pt-0">{user.email}</p>  
+						<p class="font-medium pl-5 text-gray-500 pt-0">{user.coverage}</p>      
+
 					</div>
 				</div>
                 <form method="POST" action="/profiles?/delete">
