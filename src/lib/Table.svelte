@@ -29,29 +29,7 @@
                     <img class="w-4 float-right" src="./trash-can.svg" alt="delete"/>
                 </button>
                 </form>
-				<form method="POST" action="/profiles?/update">
-					<input type="hidden" name="id" id="id" value={user.id} />
-					<input
-						class=" bg-gray-200 text-gray-700 border border-gray-200 rounded px-2 focus:outline-none focus:bg-white focus:border-gray-500"
-						type="text"
-						name="name"
-						id="name"
-						placeholder="Enter updated name"
-					/>
-					<input
-						class=" bg-gray-200 text-gray-700 border border-gray-200 rounded px-2 focus:outline-none focus:bg-white focus:border-gray-500"
-						type="text"
-						name="email"
-						id="email"
-						placeholder="Enter updated email"
-					/>
-					<button
-						type="submit"
-						class="bg-yellow-500 hover:bg-blue-700 text-white font-bold px-2 py-1 rounded"
-					>
-						Update
-					</button>
-				</form>
+				
 			</div>
 		{/each}
 	</div>
