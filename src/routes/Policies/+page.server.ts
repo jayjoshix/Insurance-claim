@@ -39,11 +39,9 @@ async function seed() {
   console.log(`Created "users" table`)
 
   const users = await Promise.all([
-    client.sql`
-          INSERT INTO names (name, email,coverage)
-          VALUES ('Rohan', 'rohan@tcl.com', '1234')
-          ON CONFLICT (name) DO NOTHING;
-      `,
+    
+          
+      
     client.sql`
           INSERT INTO names (name, email, image)
           VALUES ('Rebecca', 'rebecca@tcl.com')
@@ -123,7 +121,7 @@ export const actions = {
     const createUser = await client.sql`
       INSERT INTO names (name, email, coverage)
       VALUES (${name}, ${email}, ${coverage})
-      ON CONFLICT (name) DO NOTHING;
+      ON CONFLICT (email) DO NOTHING;
     `
     return { success: true };
 	}
