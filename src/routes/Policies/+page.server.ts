@@ -6,9 +6,9 @@ export async function load() {
   const db = createPool({ connectionString: POSTGRES_URL })
 
   try {
-    const { rows: names } = await db.query('SELECT * FROM names')
+    const { rows: policy } = await db.query('SELECT * FROM policy')
     return {
-      names: names,
+      policy: policy,
     }
   } catch (error) {
       console.log(
@@ -16,9 +16,9 @@ export async function load() {
       )
       // Table is not created yet
       await seed()
-      const { rows: names } = await db.query('SELECT * FROM names')
+      const { rows: policy } = await db.query('SELECT * FROM policy')
       return {
-        names: names
+        policy: policy
       }
     } 
 }
@@ -26,102 +26,105 @@ export async function load() {
 async function seed() {
   const db = createPool({ connectionString: POSTGRES_URL })
   const client = await db.connect();
-  const createTable = await client.sql`CREATE TABLE IF NOT EXISTS names (
-      id SERIAL PRIMARY KEY,
-      name VARCHAR(255) UNIQUE  NULL,
-      email VARCHAR(255) UNIQUE NOT NULL,
-      coverage VARCHAR(255) UNIQUE NOT NULL,
-
-      "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
+  const createTable = await client.sql`CREATE TABLE IF NOT EXISTS policy  (
+      policy_id INT PRIMARY KEY,
+      provider VARCHAR(255) ,
+      coverage INT ,
+ "createdAt" TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
     );
     `
 
-  console.log(`Created "users" table`)
+  console.log(`Created "policy" table`)
 
-  const users = await Promise.all([
+  const policy = await Promise.all([
+    client.sql`
+          INSERT INTO policy (policy_id, provider,coverage)
+          VALUES (101, 'bhatia', 250000)
+          ON CONFLICT (policy_id) DO NOTHING;
+      `,
     
           
       
     client.sql`
-          INSERT INTO names (name, email)
-          VALUES ('Rebecca', 'rebecca@tcl.com')
-          ON CONFLICT (name) DO NOTHING;
+          INSERT INTO policy (policy_id, provider,coverage)
+          VALUES (44, 'fraud', 250000)
+          ON CONFLICT (policy_id) DO NOTHING;
       `,
     client.sql`
-          INSERT INTO names (name, email)
-          VALUES ('Vivek', 'vivek@gmail.com')
-          ON CONFLICT (name) DO NOTHING;
+          INSERT INTO policy (policy_id, provider,coverage)
+          VALUES (32, 'jay', 250000)
+          ON CONFLICT (policy_id) DO NOTHING;
       `,
   ])
-  console.log(`Seeded ${users.length} users`)
+  console.log(`Seeded ${policy.length} users`)
 
   return {
     createTable,
-    users,
+    policy,
   }
 }
 
 /** @type {import('./$types').Actions} */
 export const actions = {
 	
-  update: async ({ request }) => {
-    const data = await request.formData();
-    const db = createPool({ connectionString: POSTGRES_URL })
-    const client = await db.connect();
+  // update: async ({ request }) => {
+  //   const data = await request.formData();
+  //   const db = createPool({ connectionString: POSTGRES_URL })
+  //   const client = await db.connect();
 
-    const id = data.get('id');
-    const email = data.get('email');
-    const name = data.get('name');
-    const coverage =data.get('coverage')
+  //   const id = data.get('id');
+  //   const email = data.get('email');
+  //   const name = data.get('name');
+  //   const coverage =data.get('coverage')
 
-    if (name == '') {
-      const updateUser = await client.sql`
-      UPDATE names
-      SET email = ${email} Where id= ${id};`
-    } else if (email == '') {
-      const updateUser = await client.sql`
-      UPDATE names
-      SET name = ${name} Where id= ${id};`
-    } else if (coverage == '') {
-      const updateUser = await client.sql`
-      UPDATE names
-      SET name = ${name} Where id= ${id};` }
-    else {
-      const updateUser = await client.sql`
-      UPDATE names
-      SET name = ${name} , email=${email} Where id= ${id};`
-    }
+  //   if (name == '') {
+  //     const updateUser = await client.sql`
+  //     UPDATE names
+  //     SET email = ${email} Where id= ${id};`
+  //   } else if (email == '') {
+  //     const updateUser = await client.sql`
+  //     UPDATE names
+  //     SET name = ${name} Where id= ${id};`
+  //   } else if (coverage == '') {
+  //     const updateUser = await client.sql`
+  //     UPDATE names
+  //     SET name = ${name} Where id= ${id};` }
+  //   else {
+  //     const updateUser = await client.sql`
+  //     UPDATE names
+  //     SET name = ${name} , email=${email} Where id= ${id};`
+  //   }
 
-    return { success: true };
-  },
+  //   return { success: true };
+  // },
 
-  delete: async ({ request }) => {
-    const data = await request.formData();
-    const db = createPool({ connectionString: POSTGRES_URL })
-    const client = await db.connect();
+  // delete: async ({ request }) => {
+  //   const data = await request.formData();
+  //   const db = createPool({ connectionString: POSTGRES_URL })
+  //   const client = await db.connect();
 
-    const id = data.get('id');
+  //   const id = data.get('id');
 
-    const deleteUser = await client.sql`
-    DELETE FROM names
-    WHERE id = ${id};`
+  //   const deleteUser = await client.sql`
+  //   DELETE FROM names
+  //   WHERE id = ${id};`
 	
-		return { success: true };
-	},
+	// 	return { success: true };
+	// },
 
 	create: async ({request}) => {
 		const data = await request.formData();
     const db = createPool({ connectionString: POSTGRES_URL })
     const client = await db.connect();
 
-    const email = data.get('email');
-		const name = data.get('name');
+    const policy_id = data.get('policy_id');
+		const provider = data.get('provider');
     const coverage =data.get('coverage');
 
-    const createUser = await client.sql`
-      INSERT INTO names (name, email, coverage)
-      VALUES (${name}, ${email}, ${coverage})
-      ON CONFLICT (email) DO NOTHING;
+    const createpolicy = await client.sql`
+      INSERT INTO policy (policy_id, provider, coverage)
+      VALUES (${policy_id}, ${provider}, ${coverage})
+      ON CONFLICT (policy_id) DO NOTHING;
     `
     return { success: true };
 	}

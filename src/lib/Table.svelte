@@ -1,5 +1,5 @@
 <script>
-    export let names
+    export let policy
 </script>
 
 
@@ -10,23 +10,23 @@
 		<div class="space-y-1">
 			<h2 class="text-xl font-semibold">List of policies</h2>
 			<p class="text-sm text-gray-500">
-				Fetched {names.length} policies
+				Fetched {policy.length} policies
 			</p>
 		</div>
 	</div>
 	<div class="divide-y divide-gray-900/5">
-		{#each names as user (user.id)}
+		{#each policy as policy (policy.policy_id)}
 			<div class="flex items-center justify-between py-3">
 				<div class="flex items-center space-x-4">
 					<div class="flex">
-						<p class="font-medium pt-1 leading-none">{user.name}</p>
-						<p class="font-medium pl-5 text-gray-500 pt-0">{user.email}</p>  
-						<p class="font-medium pl-5 text-gray-500 pt-0">{user.coverage}</p>      
+						<p class="font-medium pt-1 leading-none">{policy.policy_id}</p>
+						<p class="font-medium pl-5 text-gray-500 pt-0">{policy.provider}</p>  
+						<p class="font-medium pl-5 text-gray-500 pt-0">{policy.coverage}</p>      
 
 					</div>
 				</div>
                 <form method="POST" action="/profiles?/delete">
-                <input type="hidden" name="id" id="id" value={user.id}>
+                <input type="hidden" name="id" id="id" value={policy.policy_id}>
                 <button type="submit">
                     <img class="w-4 float-right" src="./trash-can.svg" alt="delete"/>
                 </button>
