@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Table from "$lib/Table.svelte";
+  import Table from "$lib/Table_policy.svelte";
 
   /** @type {import('./$types').PageData} */
   export let data;
